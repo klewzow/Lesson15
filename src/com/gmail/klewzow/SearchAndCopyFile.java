@@ -12,8 +12,19 @@ public class SearchAndCopyFile implements FileFilter {
 
 	public SearchAndCopyFile(File fileIn, File fileOut) {
 		super();
+		if (fileOut.isDirectory() == false) {
+			fileOut.mkdirs();
+		}
+		if (fileIn.isDirectory() == false) {
+			fileIn.mkdirs();
+		}
+
 		this.fileIn = fileIn;
 		this.fileOut = fileOut;
+	}
+
+	public SearchAndCopyFile() {
+		super();
 	}
 
 	@Override
@@ -38,11 +49,12 @@ public class SearchAndCopyFile implements FileFilter {
 	}
 
 	private void fileCopy(File in, File out) throws IOException {
+
 		byte[] buff = new byte[(1024 * 1024) * 5];
-		System.out.println(in.getName()+" Copy ");
+		System.out.println(in.getName() + " Copy ");
 		int readByte = 0;
 		try (FileInputStream fileInputStream = new FileInputStream(in);
-				FileOutputStream fileOutputStream = new FileOutputStream(out + in.getName())) {
+				FileOutputStream fileOutputStream = new FileOutputStream(out +"/"+ in.getName())) {
 
 			for (; (readByte = fileInputStream.read()) > 0;) {
 				fileOutputStream.write(buff, 0, readByte);
@@ -55,9 +67,7 @@ public class SearchAndCopyFile implements FileFilter {
 
 	}
 
-	public SearchAndCopyFile() {
-		super();
-	}
+
 
 	public File getFileIn() {
 		return fileIn;
